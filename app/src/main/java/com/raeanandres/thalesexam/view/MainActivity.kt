@@ -31,15 +31,7 @@ class MainActivity : ComponentActivity() {
 
 
 
-@Composable
-fun ImageItem(imageUrl: String,
-              contentDesc: String,) {
-    AsyncImage(
-        model = imageUrl,
-        placeholder = painterResource(id = R.drawable.ic_launcher_background),
-        error = painterResource(id = R.drawable.ic_launcher_background),
-        contentDescription = contentDesc)
-}
+
 
 @Preview(showBackground = true)
 @Composable

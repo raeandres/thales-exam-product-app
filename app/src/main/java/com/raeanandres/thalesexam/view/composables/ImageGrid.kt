@@ -17,7 +17,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.raeanandres.thalesexam.domain.entity.Product
-import com.raeanandres.thalesexam.view.ImageItem
 import com.raeanandres.thalesexam.view.ProductsViewModel
 import kotlinx.coroutines.launch
 
