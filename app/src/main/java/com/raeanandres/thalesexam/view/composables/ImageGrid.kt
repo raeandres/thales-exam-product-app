@@ -45,15 +45,16 @@ fun ImageGrid(productList: List<Product>, productVm: ProductsViewModel) {
                     Column {
                         ImageItem(product.picture, description)
                         Text(text = description)
-                    }
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Button(onClick = {
-                        coroutineScope.launch {
-                            productVm.deleteProduct(product)
+                        Spacer(modifier = Modifier.width(2.dp))
+                        Button(onClick = {
+                            coroutineScope.launch {
+                                productVm.deleteProduct(product)
+                            }
+                        }) {
+                            Text("Delete")
                         }
-                    }) {
-                        Text("Delete")
                     }
+
                 }
             }
         }

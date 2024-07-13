@@ -86,25 +86,6 @@ fun MainScreen(productVm: ProductsViewModel = viewModel()) {
             }
             Spacer(modifier = Modifier.height(16.dp))
             ImageGrid(productList = filteredList, productVm = productVm)
-//            LazyColumn {
-//                items(filteredList.size) { index ->
-//                    Text(text = "${filteredList[index].name}: ${filteredList[index].desc}")
-//                    Row {
-//                        Button(onClick = { /* Update logic */ }) {
-//                            Text("Update")
-//                        }
-//                        Spacer(modifier = Modifier.width(8.dp))
-//                        Button(onClick = {
-//                            coroutineScope.launch {
-//                                itemViewModel.deleteProduct(filteredList[index])
-//                            }
-//                        }) {
-//                            Text("Delete")
-//                        }
-//                    }
-//                    Spacer(modifier = Modifier.height(8.dp))
-//                }
-//            }
         }
     }
 }
