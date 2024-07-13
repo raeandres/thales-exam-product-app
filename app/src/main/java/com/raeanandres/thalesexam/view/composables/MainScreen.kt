@@ -34,9 +34,9 @@ fun MainScreen(itemViewModel: ProductsViewModel = viewModel()) {
     val coroutineScope = rememberCoroutineScope()
 
     var name by remember { mutableStateOf("") }
-    var type by remember { mutableStateOf("")}
-    var image by remember { mutableStateOf("") }
-    var price by remember { mutableDoubleStateOf(0.0) }
+    val type by remember { mutableStateOf("")}
+    val image by remember { mutableStateOf("") }
+    val price by remember { mutableDoubleStateOf(0.0) }
     var description by remember { mutableStateOf("") }
     var filteredList by remember { mutableStateOf(itemList) }
 
@@ -48,7 +48,7 @@ fun MainScreen(itemViewModel: ProductsViewModel = viewModel()) {
         filteredList = if (query.isEmpty()) {
             itemList
         } else {
-            itemList.filter { it.name.contains(query, ignoreCase = true) || it.desc.contains(query, ignoreCase = true) }
+            itemList.filter {it.name.contains(query, ignoreCase = true)}
         }
     }
 
@@ -73,10 +73,8 @@ fun MainScreen(itemViewModel: ProductsViewModel = viewModel()) {
             Button(onClick = {
                 val item = Product(name = name, type = type, picture = image, price = price, desc = description)
                 coroutineScope.launch {
-                    itemViewModel.addProduct(item)
+                    if (item.name.isNotEmpty() or item.picture.isNotEmpty()) itemViewModel.addProduct(item)
                 }
-                name = ""
-                description = ""
             }) {
                 Text("Add Item")
             }
