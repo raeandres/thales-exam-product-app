@@ -2,7 +2,7 @@ package com.raeanandres.thalesexam.domain.repository
 
 import androidx.lifecycle.LiveData
 import com.raeanandres.thalesexam.domain.dao.ProductDAO
-import com.raeanandres.thalesexam.model.Product
+import com.raeanandres.thalesexam.domain.entity.Product
 import javax.inject.Inject
 
 class ProductsRepository @Inject constructor(private val productDAO: ProductDAO) {

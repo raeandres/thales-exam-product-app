@@ -7,10 +7,11 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.raeanandres.thalesexam.model.Product
+import com.raeanandres.thalesexam.domain.entity.Product
 
 @Dao
 interface ProductDAO {
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addProduct(product: Product)
 
@@ -20,6 +21,6 @@ interface ProductDAO {
     @Delete
     suspend fun deleteProduct(product: Product)
 
-    @Query("SELECT * FROM products ORDER by id ASC")
+    @Query("SELECT * FROM Product ORDER by id ASC")
     fun readAllProducts(): LiveData<List<Product>>
 }

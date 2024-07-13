@@ -3,13 +3,10 @@ package com.raeanandres.thalesexam.view
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.raeanandres.thalesexam.domain.ProductsDb
+import com.raeanandres.thalesexam.domain.entity.Product
 import com.raeanandres.thalesexam.domain.repository.ProductsRepository
-import com.raeanandres.thalesexam.model.Product
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
