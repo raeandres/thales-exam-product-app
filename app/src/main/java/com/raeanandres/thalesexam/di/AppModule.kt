@@ -1,15 +1,12 @@
 package com.raeanandres.thalesexam.di
 
 import android.content.Context
-import androidx.room.Room
 import com.raeanandres.thalesexam.domain.ProductsDb
 import com.raeanandres.thalesexam.domain.dao.ProductDAO
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Singleton
-
-private const val DB_NAME = "products_database"
 
 @Module
 @Singleton

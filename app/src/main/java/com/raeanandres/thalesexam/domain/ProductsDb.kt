@@ -12,6 +12,7 @@ abstract class ProductsDb : RoomDatabase() {
     companion object {
         @Volatile
         private var INSTANCE: ProductsDb? = null
+        private const val DB_NAME = "products_database"
 
         fun getDatabase(context: Context): ProductsDb {
             val tempInstance = INSTANCE
@@ -22,7 +23,7 @@ abstract class ProductsDb : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     ProductsDb::class.java,
-                    "item_database"
+                    DB_NAME
                 ).build()
                 INSTANCE = instance
                 return instance
