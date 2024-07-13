@@ -29,8 +29,8 @@ import com.raeanandres.thalesexam.view.ProductsViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun MainScreen(itemViewModel: ProductsViewModel = viewModel()) {
-    val itemList by itemViewModel.readAllProducts.observeAsState(listOf())
+fun MainScreen(productVm: ProductsViewModel = viewModel()) {
+    val itemList by productVm.readAllProducts.observeAsState(listOf())
     val coroutineScope = rememberCoroutineScope()
 
     var name by remember { mutableStateOf("") }
@@ -55,7 +55,9 @@ fun MainScreen(itemViewModel: ProductsViewModel = viewModel()) {
     Scaffold(
         topBar = { TopBar(onSearch = ::onSearch) }
     ) { paddingValues ->
-        Column(modifier = Modifier.padding(paddingValues).padding(16.dp)) {
+        Column(modifier = Modifier
+            .padding(paddingValues)
+            .padding(16.dp)) {
             TextField(
                 value = name,
                 onValueChange = { name = it },
@@ -73,31 +75,32 @@ fun MainScreen(itemViewModel: ProductsViewModel = viewModel()) {
             Button(onClick = {
                 val item = Product(name = name, type = type, picture = image, price = price, desc = description)
                 coroutineScope.launch {
-                    if (item.name.isNotEmpty() or item.picture.isNotEmpty()) itemViewModel.addProduct(item)
+                    if (item.name.isNotEmpty() or item.picture.isNotEmpty()) productVm.addProduct(item)
                 }
             }) {
                 Text("Add Item")
             }
             Spacer(modifier = Modifier.height(16.dp))
-            LazyColumn {
-                items(filteredList.size) { index ->
-                    Text(text = "${filteredList[index].name}: ${filteredList[index].desc}")
-                    Row {
-                        Button(onClick = { /* Update logic */ }) {
-                            Text("Update")
-                        }
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Button(onClick = {
-                            coroutineScope.launch {
-                                itemViewModel.deleteProduct(filteredList[index])
-                            }
-                        }) {
-                            Text("Delete")
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
-            }
+            ImageGrid(productList = filteredList, productVm = productVm)
+//            LazyColumn {
+//                items(filteredList.size) { index ->
+//                    Text(text = "${filteredList[index].name}: ${filteredList[index].desc}")
+//                    Row {
+//                        Button(onClick = { /* Update logic */ }) {
+//                            Text("Update")
+//                        }
+//                        Spacer(modifier = Modifier.width(8.dp))
+//                        Button(onClick = {
+//                            coroutineScope.launch {
+//                                itemViewModel.deleteProduct(filteredList[index])
+//                            }
+//                        }) {
+//                            Text("Delete")
+//                        }
+//                    }
+//                    Spacer(modifier = Modifier.height(8.dp))
+//                }
+//            }
         }
     }
 }
