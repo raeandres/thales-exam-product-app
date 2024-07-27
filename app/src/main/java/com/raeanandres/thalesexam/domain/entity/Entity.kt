@@ -11,5 +11,6 @@ data class Product(
     val type: String,
     val picture: String,
     val price: Double,
-    val desc: String
+    val desc: String,
+    val createdDate: String
 )

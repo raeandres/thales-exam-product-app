@@ -1,13 +1,16 @@
 package com.raeanandres.thalesexam.view.composables
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -21,12 +24,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.raeanandres.thalesexam.domain.entity.Product
 import com.raeanandres.thalesexam.view.ProductsViewModel
 import kotlinx.coroutines.launch
+import java.util.Date
 
 @Composable
 fun MainScreen(productVm: ProductsViewModel = viewModel()) {
@@ -57,35 +64,42 @@ fun MainScreen(productVm: ProductsViewModel = viewModel()) {
     }
 
     Scaffold(
-        topBar = { TopBar(onSearch = ::onSearch) }
-    ) { paddingValues ->
-        Column(modifier = Modifier
-            .padding(paddingValues)
-            .padding(16.dp)) {
-            TextField(
-                value = name,
-                onValueChange = { name = it },
-                modifier = Modifier.fillMaxWidth(),
-                placeholder = { Text("Name") }
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            TextField(
-                value = description,
-                onValueChange = { description = it },
-                modifier = Modifier.fillMaxWidth(),
-                placeholder = { Text("Description") }
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = {
-                val item = Product(name = name, type = type, picture = image, price = price, desc = description)
-                coroutineScope.launch {
-                    if (item.name.isNotEmpty() or item.picture.isNotEmpty()) productVm.addProduct(item)
-                }
-            }) {
-                Text("Add Item")
+        topBar = { TopBar(onSearch = ::onSearch) },
+        content = { paddingValues ->
+            Column(modifier = Modifier
+                .padding(paddingValues)
+                .padding(16.dp)) {
+                TextField(
+                    value = name,
+                    onValueChange = { name = it },
+                    modifier = Modifier.fillMaxWidth(),
+                    placeholder = { Text("Name") }
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                TextField(
+                    value = description,
+                    onValueChange = { description = it },
+                    modifier = Modifier.fillMaxWidth(),
+                    placeholder = { Text("Description") }
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+
+                ImageGrid(productList = filteredList, productVm = productVm)
             }
-            Spacer(modifier = Modifier.height(16.dp))
-            ImageGrid(productList = filteredList, productVm = productVm)
+        },
+        bottomBar = {
+            BottomAppBar {
+               Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+                   Button(onClick = {
+                       val item = Product(name = name, type = type, picture = image, price = price, desc = description, createdDate = Date().toString())
+                       coroutineScope.launch {
+                           if (item.name.isNotEmpty() or item.picture.isNotEmpty()) productVm.addProduct(item)
+                       }
+                   }) {
+                       Text("Add Item")
+                   }
+               }
+            }
         }
-    }
+    )
 }
