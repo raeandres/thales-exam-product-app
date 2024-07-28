@@ -22,6 +22,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ThalesExamTheme {
+                // trigger the api fetch
+                productVm.fetchProducts()
                 MainScreen(productVm)
             }
         }

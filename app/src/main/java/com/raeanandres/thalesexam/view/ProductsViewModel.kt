@@ -1,6 +1,8 @@
 package com.raeanandres.thalesexam.view
 
+import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.raeanandres.thalesexam.domain.entity.Product
@@ -16,6 +18,8 @@ class ProductsViewModel @Inject constructor(
 ) : ViewModel() {
 
     val readAllProducts : LiveData<List<Product>> = repo.readAllData
+
+    fun fetchProducts() = repo.fetchAllProductsFromRemote()
 
     fun addProduct(product: Product) {
         viewModelScope.launch (Dispatchers.IO) {
