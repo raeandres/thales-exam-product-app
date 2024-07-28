@@ -44,6 +44,29 @@ class ProductsRepository @Inject constructor(private val productDAO: ProductDAO)
         }
     }
 
+    suspend fun filterMapStoredDataWithRemote(
+        remoteData: List<com.raeanandres.thalesexam.model.Product>,
+        localData: LiveData<List<Product>>){
+    // check both remote and local data source to avoid storing duplicate entries to local storage
+         remoteData.map {
+             val mapToLocalDataType = Product(
+                name = it.name,
+                type = it.product_type,
+                picture = it.picture,
+                price = it.price,
+                desc = it.description ?: "",
+                createdDate = Date().toString())
+
+             // check if there are remote data already existing in the local db
+             if (!localData.value!!.contains(mapToLocalDataType)) {
+                 // add items that are unique
+                 CoroutineScope(Dispatchers.IO).launch {
+                     productDAO.addProduct(mapToLocalDataType)
+                 }
+             }
+        }
+    }
+
     suspend fun addProduct(product: Product): Boolean {
         // call API first
        return remoteApi.addProduct(
@@ -55,7 +78,6 @@ class ProductsRepository @Inject constructor(private val productDAO: ProductDAO)
                 description = product.desc,
             )
         )
-//        productDAO.addProduct(product)
     }
 
     suspend fun updateProduct(product: Product){
