@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.raeanandres.thalesexam.domain.dao.ProductDAO
 import com.raeanandres.thalesexam.domain.entity.Product
 import com.raeanandres.thalesexam.domain.remote.RemoteApi
+import io.ktor.http.parameters
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -43,8 +44,18 @@ class ProductsRepository @Inject constructor(private val productDAO: ProductDAO)
         }
     }
 
-    suspend fun addProduct(product: Product) {
-        productDAO.addProduct(product)
+    suspend fun addProduct(product: Product): Boolean {
+        // call API first
+       return remoteApi.addProduct(
+            com.raeanandres.thalesexam.model.Product(
+                name = product.name,
+                product_type = product.type,
+                picture = product.picture,
+                price = product.price,
+                description = product.desc,
+            )
+        )
+//        productDAO.addProduct(product)
     }
 
     suspend fun updateProduct(product: Product){

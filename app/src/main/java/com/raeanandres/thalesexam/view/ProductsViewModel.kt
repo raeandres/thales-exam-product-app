@@ -23,7 +23,11 @@ class ProductsViewModel @Inject constructor(
 
     fun addProduct(product: Product) {
         viewModelScope.launch (Dispatchers.IO) {
-            repo.addProduct(product)
+            val isAdded = repo.addProduct(product)
+            if (isAdded) {
+                // fetch products from API
+                fetchProducts()
+            }
         }
     }
 
