@@ -13,7 +13,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.raeanandres.thalesexam.domain.entity.Product
@@ -24,6 +28,21 @@ import kotlinx.coroutines.launch
 fun ImageGrid(productList: List<Product>, productVm: ProductsViewModel) {
 
     val coroutineScope = rememberCoroutineScope()
+
+    var currentSortOrder by remember { mutableStateOf<SortOrder>(SortOrder.Price) }
+
+    val sortedProducts = when (currentSortOrder) {
+        SortOrder.Price -> productList.sortedBy { it.price }
+        SortOrder.Type -> productList.sortedBy { it.type }
+    }
+
+    SortComponent(
+        priceSort = {
+            currentSortOrder = SortOrder.Price
+        }, typeSort = {
+            currentSortOrder = SortOrder.Type
+        })
+
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 128.dp),
         contentPadding = PaddingValues(
@@ -34,7 +53,8 @@ fun ImageGrid(productList: List<Product>, productVm: ProductsViewModel) {
         ),
         modifier = Modifier.fillMaxSize()
     ) {
-        items(productList.size) { productIndex ->
+
+        items(sortedProducts.size) { productIndex ->
             val product = productList[productIndex]
             product.desc.let { description ->
                 Card(
@@ -54,7 +74,6 @@ fun ImageGrid(productList: List<Product>, productVm: ProductsViewModel) {
                             Text("Delete")
                         }
                     }
-
                 }
             }
         }
