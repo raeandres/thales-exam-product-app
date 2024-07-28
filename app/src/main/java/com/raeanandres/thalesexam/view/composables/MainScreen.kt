@@ -1,20 +1,12 @@
 package com.raeanandres.thalesexam.view.composables
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -26,8 +18,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.raeanandres.thalesexam.domain.entity.Product
@@ -59,7 +49,10 @@ fun MainScreen(productVm: ProductsViewModel = viewModel()) {
         filteredList = if (query.isEmpty()) {
             itemList
         } else {
-            itemList.filter {it.name.contains(query, ignoreCase = true)}
+            itemList.filter { it.name.contains(query, ignoreCase = true) ||
+                        it.type.contains(query, ignoreCase = true) ||
+                        it.price.toString().contains(query, ignoreCase = true)
+            }
         }
     }
 
@@ -68,22 +61,7 @@ fun MainScreen(productVm: ProductsViewModel = viewModel()) {
         content = { paddingValues ->
             Column(modifier = Modifier
                 .padding(paddingValues)
-                .padding(16.dp)) {
-                TextField(
-                    value = name,
-                    onValueChange = { name = it },
-                    modifier = Modifier.fillMaxWidth(),
-                    placeholder = { Text("Name") }
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                TextField(
-                    value = description,
-                    onValueChange = { description = it },
-                    modifier = Modifier.fillMaxWidth(),
-                    placeholder = { Text("Description") }
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-
+                .padding(14.dp)) {
                 ImageGrid(productList = filteredList, productVm = productVm)
             }
         },
