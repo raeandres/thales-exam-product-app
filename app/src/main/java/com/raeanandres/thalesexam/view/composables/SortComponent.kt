@@ -26,12 +26,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
-sealed class SortOrder(val displayName: String){
-    object Price: SortOrder("Sort by Price")
-    object Type: SortOrder("Sort by Type")
+sealed class SortOrder{
+    data object Price: SortOrder()
+    data object Type: SortOrder()
 
-    fun sortBy(): SortOrder {
-        return when (this) {
+    fun sortBy(sortOrder: SortOrder): SortOrder {
+        return when (sortOrder) {
             is Price -> Price
             is Type -> Type
         }
@@ -41,7 +41,7 @@ sealed class SortOrder(val displayName: String){
 
 
 @Composable
-fun SortComponent( priceSort: ()-> Unit, typeSort: () -> Unit, ){
+fun SortComponent( priceSort: (SortOrder)-> Unit, typeSort: (SortOrder) -> Unit, ){
     Row (verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier
@@ -52,7 +52,7 @@ fun SortComponent( priceSort: ()-> Unit, typeSort: () -> Unit, ){
             modifier = Modifier
                 .border(width = 1.dp, color = Color.Black, shape = MaterialTheme.shapes.large)
                 .padding(horizontal = 32.dp, vertical = 10.dp)
-                .clickable { priceSort() }
+                .clickable { priceSort(SortOrder.Price) }
         )
         Spacer(modifier = Modifier.padding(all = 4.dp))
         Text(text = "Sort by Type" ,
@@ -60,7 +60,7 @@ fun SortComponent( priceSort: ()-> Unit, typeSort: () -> Unit, ){
             modifier = Modifier
                 .border(width = 1.dp, color = Color.Black, shape = MaterialTheme.shapes.large)
                 .padding(horizontal = 32.dp, vertical = 10.dp)
-                .clickable { typeSort() }
+                .clickable { typeSort(SortOrder.Type) }
         )
     }
     

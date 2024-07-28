@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
@@ -20,6 +21,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.raeanandres.thalesexam.domain.entity.Product
 import com.raeanandres.thalesexam.view.ProductsViewModel
 import kotlinx.coroutines.launch
@@ -37,10 +39,10 @@ fun ImageGrid(productList: List<Product>, productVm: ProductsViewModel) {
     }
 
     SortComponent(
-        priceSort = {
-            currentSortOrder = SortOrder.Price
-        }, typeSort = {
-            currentSortOrder = SortOrder.Type
+        priceSort = { price ->
+            currentSortOrder = currentSortOrder.sortBy(price)
+        }, typeSort = { type ->
+            currentSortOrder = currentSortOrder.sortBy(type)
         })
 
     LazyVerticalGrid(
@@ -54,8 +56,7 @@ fun ImageGrid(productList: List<Product>, productVm: ProductsViewModel) {
         modifier = Modifier.fillMaxSize()
     ) {
 
-        items(sortedProducts.size) { productIndex ->
-            val product = productList[productIndex]
+        items(sortedProducts) { product ->
             product.desc.let { description ->
                 Card(
                     modifier = Modifier
@@ -64,9 +65,12 @@ fun ImageGrid(productList: List<Product>, productVm: ProductsViewModel) {
                 ) {
                     Column {
                         ImageItem(product.picture, description)
-                        Text(text = description)
+                        Text(text = product.name, fontSize = 14.sp)
+                        Text(text = product.type, fontSize = 14.sp)
+                        Text(text = product.price.toString(), fontSize = 12.sp)
                         Spacer(modifier = Modifier.width(2.dp))
-                        Button(onClick = {
+                        Button(
+                            onClick = {
                             coroutineScope.launch {
                                 productVm.deleteProduct(product)
                             }
