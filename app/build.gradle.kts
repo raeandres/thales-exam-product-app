@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     id("dagger.hilt.android.plugin")
     id("com.google.devtools.ksp")
+    kotlin("plugin.serialization").version("1.9.22")
 }
 
 android {
@@ -73,6 +74,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.kotlin.stdlib)
 
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.datetime)
+
     // Room components
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
@@ -81,5 +85,14 @@ dependencies {
     // Hilt dependencies
     implementation( libs.hilt.android)
     ksp (libs.hilt.compiler)
+
+
+    // Ktor
+    implementation (libs.ktor.client.android)
+    implementation(libs.ktor.serialization.kotlinx.json)
+    implementation (libs.kotlinx.serialization.json)
+    implementation (libs.ktor.client.logging.jvm)
+    implementation(libs.ktor.client.content.negotiation)
+
 
 }
