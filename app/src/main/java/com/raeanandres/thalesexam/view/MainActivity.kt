@@ -1,5 +1,6 @@
 package com.raeanandres.thalesexam.view
 
+import android.net.ConnectivityManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -22,8 +23,13 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ThalesExamTheme {
-                // trigger the api fetch
-                productVm.fetchProducts()
+                // check internet connection to fetch from remote
+                val connectivityManager = getSystemService(ConnectivityManager::class.java)
+                val currentNetwork = connectivityManager.activeNetwork
+                currentNetwork?.let {
+                    // trigger the api fetch
+                    productVm.fetchProducts()
+                }
                 MainScreen(productVm)
             }
         }
