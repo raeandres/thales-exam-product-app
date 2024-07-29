@@ -9,6 +9,7 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import com.raeanandres.thalesexam.model.Product
 import io.ktor.client.request.post
+import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 import io.ktor.client.request.url
 import io.ktor.http.ContentType
@@ -44,6 +45,19 @@ class RemoteApi {
             true
         } catch (e: Exception) {
             Product.init
+            false
+        }
+    }
+
+    suspend fun updateProduct(product: Product) : Boolean {
+        return try {
+            httpClient.put {
+                url(Constants.PRODUCT_ENDPOINT)
+                contentType(ContentType.Application.Json)
+                setBody(product)
+            }
+            true
+        }catch (e: Exception) {
             false
         }
     }

@@ -18,28 +18,18 @@ class ProductsRepository @Inject constructor(private val productDAO: ProductDAO)
 
     val readAllData: LiveData<List<Product>> = productDAO.readAllProducts()
 
-    fun fetchAllProductsFromRemote() {
+    fun fetchAllProductsFromRemote(onSuccess: ( List<com.raeanandres.thalesexam.model.Product>) -> Unit, onError: (String) -> Unit)  {
         CoroutineScope(Dispatchers.IO).launch {
             kotlin.runCatching {
                 // fetch from remote
                 remoteApi.getAllProducts()
             }.onSuccess { products ->
-                // store immediately to db
-                products.map {
-                    productDAO.addProduct(
-                        Product(
-                            name = it.name,
-                            type = it.product_type,
-                            picture = it.picture,
-                            price = it.price,
-                            desc = it.description ?: "",
-                            createdDate = Date().toString()
-                        )
-                    )
-                }
-
+               onSuccess.invoke(products)
             }.onFailure { error ->
                 // show error
+                error.message?.let {
+                    onError.invoke(it)
+                }
             }
         }
     }
@@ -80,8 +70,9 @@ class ProductsRepository @Inject constructor(private val productDAO: ProductDAO)
         )
     }
 
-    suspend fun updateProduct(product: Product){
-        productDAO.updateProduct(product)
+    suspend fun updateProduct(product: com.raeanandres.thalesexam.model.Product): Boolean{
+
+        return remoteApi.updateProduct(product)
     }
 
     suspend fun deleteProduct(product: Product){

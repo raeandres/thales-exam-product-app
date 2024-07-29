@@ -27,7 +27,7 @@ import com.raeanandres.thalesexam.view.ProductsViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun ImageGrid(productList: List<Product>, productVm: ProductsViewModel) {
+fun ImageGrid(productList: List<com.raeanandres.thalesexam.model.Product>, productVm: ProductsViewModel) {
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -35,7 +35,7 @@ fun ImageGrid(productList: List<Product>, productVm: ProductsViewModel) {
 
     val sortedProducts = when (currentSortOrder) {
         SortOrder.Price -> productList.sortedBy { it.price }
-        SortOrder.Type -> productList.sortedBy { it.type }
+        SortOrder.Type -> productList.sortedBy { it.product_type }
     }
 
     SortComponent(
@@ -57,25 +57,25 @@ fun ImageGrid(productList: List<Product>, productVm: ProductsViewModel) {
     ) {
 
         items(sortedProducts) { product ->
-            product.desc.let { description ->
+            product.description?.let { desc ->
                 Card(
                     modifier = Modifier
                         .padding(4.dp)
                         .fillMaxWidth(),
                 ) {
                     Column {
-                        ImageItem(product.picture, description)
+                        ImageItem(product.picture, desc)
                         Text(text = product.name, fontSize = 14.sp)
-                        Text(text = product.type, fontSize = 14.sp)
+                        Text(text = product.product_type, fontSize = 14.sp)
                         Text(text = product.price.toString(), fontSize = 12.sp)
                         Spacer(modifier = Modifier.width(2.dp))
                         Button(
                             onClick = {
                             coroutineScope.launch {
-                                productVm.deleteProduct(product)
+                                productVm.updateProduct(product)
                             }
                         }) {
-                            Text("Delete")
+                            Text("Edit")
                         }
                     }
                 }

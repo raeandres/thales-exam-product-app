@@ -31,7 +31,7 @@ fun MainScreen(productVm: ProductsViewModel = viewModel()) {
     val imageMock = "https://static.beautytocare.com/cdn-cgi/image/width=1440,height=1200,f=auto/media/catalog/product//j/o/johnson-s-baby-bedtime-shampoo-500ml_1.jpg"
 
 
-    val itemList by productVm.readAllProducts.observeAsState(listOf())
+    val itemList by productVm.fetchAllProducts.observeAsState(listOf())
     val coroutineScope = rememberCoroutineScope()
 
     var name by remember { mutableStateOf("") }
@@ -50,7 +50,7 @@ fun MainScreen(productVm: ProductsViewModel = viewModel()) {
             itemList
         } else {
             itemList.filter { it.name.contains(query, ignoreCase = true) ||
-                        it.type.contains(query, ignoreCase = true) ||
+                        it.product_type.contains(query, ignoreCase = true) ||
                         it.price.toString().contains(query, ignoreCase = true)
             }
         }

@@ -17,9 +17,15 @@ class ProductsViewModel @Inject constructor(
     private val repo: ProductsRepository
 ) : ViewModel() {
 
-    val readAllProducts : LiveData<List<Product>> = repo.readAllData
+    private var _fetchAllProducts: MutableLiveData<List<com.raeanandres.thalesexam.model.Product>> = MutableLiveData()
+    val fetchAllProducts : LiveData<List<com.raeanandres.thalesexam.model.Product>> get() = _fetchAllProducts
 
-    fun fetchProducts() = repo.fetchAllProductsFromRemote()
+
+    fun fetchProducts() =  repo.fetchAllProductsFromRemote(onSuccess = {
+        _fetchAllProducts.postValue(it)
+    }, onError = {
+        // implement error handling
+    })
 
     fun addProduct(product: Product) {
         viewModelScope.launch (Dispatchers.IO) {
@@ -31,15 +37,12 @@ class ProductsViewModel @Inject constructor(
         }
     }
 
-    fun updateProduct(product: Product){
+    fun updateProduct(product: com.raeanandres.thalesexam.model.Product){
         viewModelScope.launch (Dispatchers.IO) {
-            repo.updateProduct(product)
-        }
-    }
-
-    fun deleteProduct(product: Product) {
-        viewModelScope.launch (Dispatchers.IO) {
-            repo.deleteProduct(product)
+            val isUpdated = repo.updateProduct(product)
+            if (isUpdated) {
+                fetchProducts()
+            }
         }
     }
 }
