@@ -1,8 +1,10 @@
 package com.raeanandres.thalesexam.view.composables
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
@@ -13,10 +15,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import com.raeanandres.thalesexam.R
+import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomSheetComponent(sheetState: SheetState, sheetStatus : MutableState<Boolean>){
+fun BottomSheetComponent(sheetState: SheetState, sheetStatus : MutableState<Boolean>, coroutineScope: CoroutineScope){
     if (sheetStatus.value) {
         ModalBottomSheet(
             modifier = Modifier.fillMaxHeight(0.5f),
@@ -24,11 +27,9 @@ fun BottomSheetComponent(sheetState: SheetState, sheetStatus : MutableState<Bool
             onDismissRequest = {
                 sheetStatus.value = false
             }) {
-            Column {
-                Image(
-                    modifier = Modifier.fillMaxWidth(), alignment = Alignment.Center,
-                    painter = painterResource(id = R.drawable.ic_launcher_foreground), contentDescription = null)
-            }
+           Box(modifier = Modifier.fillMaxSize()){
+               AddProduct(coroutineScope = coroutineScope)
+           }
         }
     }
 

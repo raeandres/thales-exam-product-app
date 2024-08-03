@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -27,6 +28,7 @@ fun ScaffoldComponent(onSearch: (query: String) -> Unit, productVm: ProductsView
     val sheetStatus  = remember {
         mutableStateOf(false)
     }
+    val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
         topBar = { TopBar(onSearch = onSearch) },
@@ -35,7 +37,7 @@ fun ScaffoldComponent(onSearch: (query: String) -> Unit, productVm: ProductsView
                 .padding(paddingValues)
                 .padding(14.dp)) {
                 ImageGrid(modifier = Modifier.fillMaxSize(), productList = filteredList, productVm = productVm)
-                BottomSheetComponent(sheetState, sheetStatus)
+                BottomSheetComponent(sheetState, sheetStatus, coroutineScope)
             }
         },
         bottomBar = {
@@ -46,9 +48,6 @@ fun ScaffoldComponent(onSearch: (query: String) -> Unit, productVm: ProductsView
     )
 }
 
-
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Footer(sheetStatus: MutableState<Boolean>){
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -56,22 +55,6 @@ fun Footer(sheetStatus: MutableState<Boolean>){
         Button(onClick = {
 
             sheetStatus.value = true
-
-
-//                       val item = Product(name = name, type = type, picture = image, price = price, desc = description, createdDate = Date().toString())
-
-            // Mock item
-//                       val item = Product(
-//                           name = "Breeze Liquid Detergent - Colour Care",
-//                           type = "Household",
-//                           picture = "https://media.nedigital.sg/fairprice/fpol/media/images/product/XL/13026943_XL1_20220914.jpg?w=1200&q=70",
-//                           price = 12.74,
-//                           desc = "Breeze Liquid Detergent - Colour Care 3X tough stains removal, *based on internal lab test vs ordinary detergent powder",
-//                           createdDate = Date().toString()
-//                       )
-//                       coroutineScope.launch {
-//                           if (item.name.isNotEmpty() or item.picture.isNotEmpty()) productVm.addProduct(item)
-//                       }
         }) {
             Text("Add Item")
         }
