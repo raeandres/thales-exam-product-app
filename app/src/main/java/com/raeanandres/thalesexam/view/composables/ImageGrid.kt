@@ -27,7 +27,7 @@ import com.raeanandres.thalesexam.view.ProductsViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun ImageGrid(productList: List<com.raeanandres.thalesexam.model.Product>, productVm: ProductsViewModel) {
+fun ImageGrid(modifier: Modifier, productList: List<com.raeanandres.thalesexam.model.Product>, productVm: ProductsViewModel) {
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -53,7 +53,7 @@ fun ImageGrid(productList: List<com.raeanandres.thalesexam.model.Product>, produ
             end = 12.dp,
             bottom = 16.dp
         ),
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier
     ) {
 
         items(sortedProducts) { product ->
