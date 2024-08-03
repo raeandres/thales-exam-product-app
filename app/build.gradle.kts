@@ -95,4 +95,14 @@ dependencies {
     implementation(libs.ktor.client.content.negotiation)
 
 
+    // Material Design
+    implementation (libs.ui)
+    implementation (libs.material3)
+    implementation (libs.ui.tooling.preview)
+    implementation (libs.androidx.foundation)
+    implementation (libs.androidx.material)
+    implementation (libs.androidx.material.icons.core)
+    implementation (libs.androidx.material.icons.extended)
+
+
 }
