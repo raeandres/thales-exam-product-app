@@ -14,17 +14,8 @@ import com.raeanandres.thalesexam.view.ProductsViewModel
 
 @Composable
 fun MainScreen(productVm: ProductsViewModel = viewModel()) {
-    // just mock image
-    val imageMock = "https://static.beautytocare.com/cdn-cgi/image/width=1440,height=1200,f=auto/media/catalog/product//j/o/johnson-s-baby-bedtime-shampoo-500ml_1.jpg"
-
-
+   
     val itemList by productVm.fetchAllProducts.observeAsState(listOf())
-
-    var name by remember { mutableStateOf("") }
-    val type by remember { mutableStateOf("")}
-    val image by remember { mutableStateOf(imageMock) } // update later
-    val price by remember { mutableDoubleStateOf(0.0) }
-    var description by remember { mutableStateOf("") }
     var filteredList by remember { mutableStateOf(itemList) }
 
     LaunchedEffect(itemList) {
