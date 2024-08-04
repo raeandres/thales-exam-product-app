@@ -21,7 +21,7 @@ fun TopBar(onSearch: (String) -> Unit) {
     var searchText by remember { mutableStateOf(TextFieldValue("")) }
 
     val keyboardController = LocalSoftwareKeyboardController.current
-    
+
     TopAppBar(
         title = {
             TextField(

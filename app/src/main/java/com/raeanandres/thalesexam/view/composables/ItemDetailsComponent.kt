@@ -21,9 +21,10 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.raeanandres.thalesexam.view.ProductsViewModel
 
 @Composable
-fun ItemDetailsField(imageUrl: (String) -> Unit) {
+fun ItemDetailsField(imageUrl: (String) -> Unit, productsViewModel: ProductsViewModel) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
     var productImageUrl by remember {
@@ -54,6 +55,7 @@ fun ItemDetailsField(imageUrl: (String) -> Unit) {
             keyboardActions = KeyboardActions(
                 onDone = {
                     imageUrl.invoke(productImageUrl)
+                    productsViewModel.setUrl(productImageUrl)
                     keyboardController?.hide()
                 }
             ),
@@ -81,7 +83,10 @@ fun ItemDetailsField(imageUrl: (String) -> Unit) {
                 }
                 .focusable(),
             keyboardActions = KeyboardActions(
-                onDone = { keyboardController?.hide()}
+                onDone = {
+                    keyboardController?.hide()
+                    productsViewModel.setProductName(productNameText)
+                }
             ),
             singleLine = true,
             shape = RoundedCornerShape(8.dp),
@@ -104,7 +109,10 @@ fun ItemDetailsField(imageUrl: (String) -> Unit) {
                 }
                 .focusable(),
             keyboardActions = KeyboardActions(
-                onDone = { keyboardController?.hide()}
+                onDone = {
+                    keyboardController?.hide()
+                    productsViewModel.setProductType(productTypeText)
+                }
             ),
             singleLine = true,
             shape = RoundedCornerShape(8.dp),
@@ -128,11 +136,15 @@ fun ItemDetailsField(imageUrl: (String) -> Unit) {
                 }
                 .focusable(),
             keyboardActions = KeyboardActions(
-                onDone = { keyboardController?.hide()}
+                onDone = {
+                    keyboardController?.hide()
+                    productsViewModel.setProductPrice(productPriceText)
+                }
             ),
             singleLine = true,
             shape = RoundedCornerShape(8.dp),
-            value = productPriceText, onValueChange = {
+            value = productPriceText,
+            onValueChange = {
                     newText ->
                 productPriceText = newText
             }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),

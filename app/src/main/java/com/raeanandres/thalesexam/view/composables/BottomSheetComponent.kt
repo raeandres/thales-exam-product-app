@@ -10,6 +10,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +22,12 @@ import kotlinx.coroutines.CoroutineScope
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomSheetComponent(sheetState: SheetState, sheetStatus : MutableState<Boolean>, coroutineScope: CoroutineScope, productsVm: ProductsViewModel){
+
+    LaunchedEffect(key1 = productsVm.isProductAdded) {
+        sheetStatus.value = productsVm.isProductAdded.value == true
+    }
+
+
     if (sheetStatus.value) {
         ModalBottomSheet(
             modifier = Modifier.fillMaxHeight(0.5f),

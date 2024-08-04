@@ -25,7 +25,7 @@ import kotlinx.coroutines.CoroutineScope
 
 
 @Composable
-fun AddProduct(productsVm: ProductsViewModel? = null, coroutineScope: CoroutineScope) {
+fun AddProduct(productsVm: ProductsViewModel, coroutineScope: CoroutineScope) {
 
     var imageUrl by remember {
         mutableStateOf("")
@@ -44,7 +44,7 @@ fun AddProduct(productsVm: ProductsViewModel? = null, coroutineScope: CoroutineS
                 ItemDetailsField(
                     imageUrl = {
                         imageUrl = it
-                    }
+                    }, productsVm
                 )
             }
 
@@ -54,9 +54,8 @@ fun AddProduct(productsVm: ProductsViewModel? = null, coroutineScope: CoroutineS
             .fillMaxWidth()
             .padding(horizontal = 50.dp)
             ,onClick = {
-            /*TODO*/
                 // call api to save
-//               productsVm.addProduct()
+                productsVm.addProduct()
             }) {
             Text(color = Color.White,
                 text = "Add Item")
@@ -64,30 +63,5 @@ fun AddProduct(productsVm: ProductsViewModel? = null, coroutineScope: CoroutineS
         Spacer(modifier = Modifier.height(30.dp))
 
     }
-
-//    val item = Product(name = name, type = type, picture = image, price = price, desc = description, createdDate = Date().toString())
-
-    // Mock item
-//                       val item = Product(
-//                           name = "Breeze Liquid Detergent - Colour Care",
-//                           type = "Household",
-//                           picture = "https://media.nedigital.sg/fairprice/fpol/media/images/product/XL/13026943_XL1_20220914.jpg?w=1200&q=70",
-//                           price = 12.74,
-//                           desc = "Breeze Liquid Detergent - Colour Care 3X tough stains removal, *based on internal lab test vs ordinary detergent powder",
-//                           createdDate = Date().toString()
-//                       )
-//                       coroutineScope.launch {
-//                           if (item.name.isNotEmpty() or item.picture.isNotEmpty()) productVm.addProduct(item)
-//                       }
 }
 
-
-@Preview
-@Composable
-fun PreviewAdd(){
-
-    val coroutineScope = rememberCoroutineScope()
-
-    AddProduct( coroutineScope = coroutineScope)
-
-}
