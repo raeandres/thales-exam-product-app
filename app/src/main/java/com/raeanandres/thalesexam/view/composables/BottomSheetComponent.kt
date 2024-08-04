@@ -31,7 +31,7 @@ fun BottomSheetComponent(sheetState: SheetState, sheetStatus : MutableState<Bool
                 sheetStatus.value = false
             }) {
            Box(modifier = Modifier.fillMaxSize()){
-               ProductDetail(productsVm = productsVm, coroutineScope = coroutineScope)
+               ProductDetail(productsVm = productsVm, sheetStatus)
            }
         }
     }

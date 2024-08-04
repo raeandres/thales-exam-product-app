@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,7 +23,7 @@ import com.raeanandres.thalesexam.view.ProductsViewModel
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
-fun ProductDetail(productsVm: ProductsViewModel, coroutineScope: CoroutineScope) {
+fun ProductDetail(productsVm: ProductsViewModel, sheetStatus: MutableState<Boolean>) {
 
     var imageUrl by remember {
         if (productsVm.taskType.value == TaskType.EditProduct) {
@@ -61,11 +62,14 @@ fun ProductDetail(productsVm: ProductsViewModel, coroutineScope: CoroutineScope)
                         productsVm.addProduct()
                     }
                     TaskType.EditProduct -> {
-                        productsVm.updateProduct()
+                        productsVm.updateProductEvent()
                     }
 
                     null -> TODO()
                 }
+
+                sheetStatus.value = false
+
             }) {
             Text(color = Color.White,
                 text = if ( productsVm.taskType.value == TaskType.EditProduct) "Update Item" else "Add Item")

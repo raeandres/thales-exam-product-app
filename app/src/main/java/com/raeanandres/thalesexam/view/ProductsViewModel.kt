@@ -21,6 +21,9 @@ class ProductsViewModel @Inject constructor(
     private var _fetchAllProducts: MutableLiveData<List<Product>> = MutableLiveData()
     val fetchAllProducts : LiveData<List<Product>> get() = _fetchAllProducts
 
+    private var _productId : MutableLiveData<String> = MutableLiveData()
+    val productId : LiveData<String> get() = _productId
+
     private var _productImageUrl : MutableLiveData<String> = MutableLiveData()
     val productImageUrl : LiveData<String> get() = _productImageUrl
 
@@ -75,11 +78,19 @@ class ProductsViewModel @Inject constructor(
         }
     }
 
-    fun updateProduct(){
-
+    fun updateProductEvent(){
+        val product = Product(
+            id = _productId.value,
+            name = _productNameText.value ?: "",
+            picture = _productNameText.value ?: "",
+            product_type = _productTypeText.value ?: "",
+            price = _productPriceText.value?.toDouble() ?: 0.0,
+            description = ""
+        )
+        updateProduct(product)
     }
 
-    fun updateProduct(product: Product){
+    private fun updateProduct(product: Product){
         viewModelScope.launch (Dispatchers.IO) {
             val isUpdated = repo.updateProduct(product)
             if (isUpdated) {
@@ -88,6 +99,9 @@ class ProductsViewModel @Inject constructor(
         }
     }
 
+    fun setId(id: String) {
+        _productId.value = id
+    }
 
     fun setUrl(url: String) {
         _productImageUrl.value = url

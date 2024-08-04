@@ -77,7 +77,7 @@ fun ImageGrid(
                         Spacer(modifier = Modifier.width(2.dp))
                         Button(
                             onClick = {
-
+                                productVm.setId(product.id ?: "")
                                 productVm.setProductName(product.name)
                                 productVm.setProductType(product.product_type)
                                 productVm.setProductPrice(product.price.toString())
