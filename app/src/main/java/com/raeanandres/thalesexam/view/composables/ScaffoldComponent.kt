@@ -36,7 +36,12 @@ fun ScaffoldComponent(onSearch: (query: String) -> Unit, productVm: ProductsView
             Column(modifier = Modifier
                 .padding(paddingValues)
                 .padding(14.dp)) {
-                ImageGrid(modifier = Modifier.fillMaxSize(), productList = filteredList, productVm = productVm)
+                ImageGrid(
+                    sheetStatus = sheetStatus,
+                    modifier = Modifier.fillMaxSize(),
+                    productList = filteredList,
+                    productVm = productVm
+                )
                 BottomSheetComponent(sheetState, sheetStatus, coroutineScope, productVm)
             }
         },

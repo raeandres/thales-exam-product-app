@@ -13,6 +13,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,11 +22,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.raeanandres.thalesexam.model.Product
 import com.raeanandres.thalesexam.view.ProductsViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun ImageGrid(modifier: Modifier, productList: List<com.raeanandres.thalesexam.model.Product>, productVm: ProductsViewModel) {
+fun ImageGrid(
+    sheetStatus : MutableState<Boolean>,
+    modifier: Modifier,
+    productList: List<Product>,
+    productVm: ProductsViewModel,
+) {
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -69,9 +76,10 @@ fun ImageGrid(modifier: Modifier, productList: List<com.raeanandres.thalesexam.m
                         Spacer(modifier = Modifier.width(2.dp))
                         Button(
                             onClick = {
-                            coroutineScope.launch {
-                                productVm.updateProduct(product)
-                            }
+//                            coroutineScope.launch {
+//                                productVm.updateProduct(product)
+//                            }
+                                sheetStatus.value = true
                         }) {
                             Text("Edit")
                         }
