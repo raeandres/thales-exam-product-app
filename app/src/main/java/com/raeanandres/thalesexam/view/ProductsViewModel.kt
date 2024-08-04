@@ -6,9 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.raeanandres.thalesexam.domain.repository.ProductsRepository
 import com.raeanandres.thalesexam.model.Product
+import com.raeanandres.thalesexam.model.TaskType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.internal.concurrent.Task
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,12 +22,19 @@ class ProductsViewModel @Inject constructor(
     val fetchAllProducts : LiveData<List<Product>> get() = _fetchAllProducts
 
     private var _productImageUrl : MutableLiveData<String> = MutableLiveData()
+    val productImageUrl : LiveData<String> get() = _productImageUrl
 
     private var _productNameText : MutableLiveData<String> = MutableLiveData()
+    val productNameText : LiveData<String> get() = _productNameText
 
     private var _productTypeText : MutableLiveData<String> = MutableLiveData()
+    val productTypeText : LiveData<String> get()= _productTypeText
 
     private var _productPriceText : MutableLiveData<String> = MutableLiveData()
+    val productPriceText : LiveData<String> get()= _productPriceText
+
+    private var _taskType : MutableLiveData<TaskType> = MutableLiveData()
+    val taskType : LiveData<TaskType> get() = _taskType
 
 
     private var _isProductAdded : MutableLiveData<Boolean> = MutableLiveData()
@@ -66,6 +75,10 @@ class ProductsViewModel @Inject constructor(
         }
     }
 
+    fun updateProduct(){
+
+    }
+
     fun updateProduct(product: Product){
         viewModelScope.launch (Dispatchers.IO) {
             val isUpdated = repo.updateProduct(product)
@@ -92,5 +105,8 @@ class ProductsViewModel @Inject constructor(
         _productPriceText.value = productPrice
     }
 
+    fun setTaskType(taskType: TaskType) {
+        _taskType.value = taskType
+    }
 
 }

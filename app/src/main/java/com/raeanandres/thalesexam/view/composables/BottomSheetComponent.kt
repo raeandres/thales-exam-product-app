@@ -1,21 +1,16 @@
 package com.raeanandres.thalesexam.view.composables
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import com.raeanandres.thalesexam.R
+import com.raeanandres.thalesexam.model.TaskType
 import com.raeanandres.thalesexam.view.ProductsViewModel
 import kotlinx.coroutines.CoroutineScope
 
@@ -36,7 +31,7 @@ fun BottomSheetComponent(sheetState: SheetState, sheetStatus : MutableState<Bool
                 sheetStatus.value = false
             }) {
            Box(modifier = Modifier.fillMaxSize()){
-               AddProduct(productsVm = productsVm, coroutineScope = coroutineScope)
+               ProductDetail(productsVm = productsVm, coroutineScope = coroutineScope)
            }
         }
     }

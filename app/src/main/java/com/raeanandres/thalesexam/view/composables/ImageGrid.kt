@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.raeanandres.thalesexam.model.Product
+import com.raeanandres.thalesexam.model.TaskType
 import com.raeanandres.thalesexam.view.ProductsViewModel
 import kotlinx.coroutines.launch
 
@@ -76,10 +77,14 @@ fun ImageGrid(
                         Spacer(modifier = Modifier.width(2.dp))
                         Button(
                             onClick = {
-//                            coroutineScope.launch {
-//                                productVm.updateProduct(product)
-//                            }
+
+                                productVm.setProductName(product.name)
+                                productVm.setProductType(product.product_type)
+                                productVm.setProductPrice(product.price.toString())
+                                productVm.setUrl(product.picture)
+
                                 sheetStatus.value = true
+                                productVm.setTaskType(TaskType.EditProduct)
                         }) {
                             Text("Edit")
                         }

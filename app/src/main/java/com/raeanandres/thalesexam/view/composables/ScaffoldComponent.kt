@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.raeanandres.thalesexam.model.Product
+import com.raeanandres.thalesexam.model.TaskType
 import com.raeanandres.thalesexam.view.ProductsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -36,29 +37,25 @@ fun ScaffoldComponent(onSearch: (query: String) -> Unit, productVm: ProductsView
             Column(modifier = Modifier
                 .padding(paddingValues)
                 .padding(14.dp)) {
-                ImageGrid(
-                    sheetStatus = sheetStatus,
-                    modifier = Modifier.fillMaxSize(),
-                    productList = filteredList,
-                    productVm = productVm
-                )
+                ImageGrid(sheetStatus = sheetStatus, modifier = Modifier.fillMaxSize(), productList = filteredList, productVm = productVm)
                 BottomSheetComponent(sheetState, sheetStatus, coroutineScope, productVm)
             }
         },
         bottomBar = {
             BottomAppBar {
-                Footer(sheetStatus)
+                Footer(sheetStatus, productVm)
             }
         }
     )
 }
 
 @Composable
-fun Footer(sheetStatus: MutableState<Boolean>){
+fun Footer(sheetStatus: MutableState<Boolean>, productVm: ProductsViewModel){
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
 
         Button(onClick = {
             sheetStatus.value = true
+            productVm.setTaskType(TaskType.AddProduct)
         }) {
             Text("Add Item")
         }

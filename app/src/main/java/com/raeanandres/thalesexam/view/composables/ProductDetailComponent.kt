@@ -12,34 +12,35 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.raeanandres.thalesexam.model.Product
+import com.raeanandres.thalesexam.model.TaskType
 import com.raeanandres.thalesexam.view.ProductsViewModel
 import kotlinx.coroutines.CoroutineScope
 
-
 @Composable
-fun AddProduct(productsVm: ProductsViewModel, coroutineScope: CoroutineScope) {
+fun ProductDetail(productsVm: ProductsViewModel, coroutineScope: CoroutineScope) {
 
     var imageUrl by remember {
-        mutableStateOf("")
+        if (productsVm.taskType.value == TaskType.EditProduct) {
+            mutableStateOf(productsVm.productImageUrl.value!!)
+        } else {
+            mutableStateOf("")
+        }
     }
 
     Column {
         Row (modifier = Modifier
             .fillMaxWidth()
             .padding(20.dp)) {
-           Column( modifier = Modifier
-               .align(Alignment.CenterVertically)
-               .padding(horizontal = 10.dp))  {
-               ImageItem(imageUrl, "")
-           }
+            Column( modifier = Modifier
+                .align(Alignment.CenterVertically)
+                .padding(horizontal = 10.dp))  {
+                ImageItem(imageUrl, "")
+            }
             Column (modifier = Modifier.fillMaxWidth()) {
                 ItemDetailsField(
                     imageUrl = {
@@ -55,13 +56,21 @@ fun AddProduct(productsVm: ProductsViewModel, coroutineScope: CoroutineScope) {
             .padding(horizontal = 50.dp)
             ,onClick = {
                 // call api to save
-                productsVm.addProduct()
+                when (productsVm.taskType.value) {
+                    TaskType.AddProduct -> {
+                        productsVm.addProduct()
+                    }
+                    TaskType.EditProduct -> {
+                        productsVm.updateProduct()
+                    }
+
+                    null -> TODO()
+                }
             }) {
             Text(color = Color.White,
-                text = "Add Item")
+                text = if ( productsVm.taskType.value == TaskType.EditProduct) "Update Item" else "Add Item")
         }
         Spacer(modifier = Modifier.height(30.dp))
 
     }
 }
-

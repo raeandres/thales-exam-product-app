@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.raeanandres.thalesexam.model.TaskType
 import com.raeanandres.thalesexam.view.ProductsViewModel
 
 @Composable
@@ -28,16 +29,33 @@ fun ItemDetailsField(imageUrl: (String) -> Unit, productsViewModel: ProductsView
     val keyboardController = LocalSoftwareKeyboardController.current
 
     var productImageUrl by remember {
-        mutableStateOf("")
+        if (productsViewModel.taskType.value == TaskType.EditProduct) {
+            mutableStateOf(productsViewModel.productImageUrl.value!!)
+        } else {
+            mutableStateOf("")
+        }
+
     }
     var productNameText by remember {
-        mutableStateOf("")
+        if (productsViewModel.taskType.value == TaskType.EditProduct) {
+            mutableStateOf(productsViewModel.productNameText.value!!)
+        } else {
+            mutableStateOf("")
+        }
     }
     var productTypeText by remember {
-        mutableStateOf("")
+        if (productsViewModel.taskType.value == TaskType.EditProduct) {
+            mutableStateOf(productsViewModel.productTypeText.value!!)
+        } else {
+            mutableStateOf("")
+        }
     }
     var productPriceText by remember {
-        mutableStateOf("")
+        if (productsViewModel.taskType.value == TaskType.EditProduct) {
+            mutableStateOf(productsViewModel.productPriceText.value!!)
+        } else {
+            mutableStateOf("")
+        }
     }
 
 
