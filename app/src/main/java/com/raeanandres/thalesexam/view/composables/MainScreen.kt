@@ -35,9 +35,9 @@ fun MainScreen(productVm: ProductsViewModel = viewModel()) {
         filteredList = if (query.isEmpty()) {
             itemList
         } else {
-            itemList.filter { it.name.contains(query, ignoreCase = true) ||
-                        it.product_type.contains(query, ignoreCase = true) ||
-                        it.price.toString().contains(query, ignoreCase = true)
+            itemList.filter { it.name.contains(query, ignoreCase = true)
+//                        it.product_type.contains(query, ignoreCase = true) ||
+//                        it.price.toString().contains(query, ignoreCase = true)
             }
         }
     }
