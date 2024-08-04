@@ -1,24 +1,18 @@
 package com.raeanandres.thalesexam.domain.repository
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.raeanandres.thalesexam.domain.dao.ProductDAO
-import com.raeanandres.thalesexam.domain.entity.Product
 import com.raeanandres.thalesexam.domain.remote.RemoteApi
-import io.ktor.http.parameters
+import com.raeanandres.thalesexam.model.Product
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.Date
 import javax.inject.Inject
 
-class ProductsRepository @Inject constructor(private val productDAO: ProductDAO) {
+class ProductsRepository @Inject constructor() {
 
     private val remoteApi = RemoteApi()
 
-    val readAllData: LiveData<List<Product>> = productDAO.readAllProducts()
-
-    fun fetchAllProductsFromRemote(onSuccess: ( List<com.raeanandres.thalesexam.model.Product>) -> Unit, onError: (String) -> Unit)  {
+    fun fetchAllProductsFromRemote(onSuccess: ( List<Product>) -> Unit, onError: (String) -> Unit)  {
         CoroutineScope(Dispatchers.IO).launch {
             kotlin.runCatching {
                 // fetch from remote
@@ -35,47 +29,46 @@ class ProductsRepository @Inject constructor(private val productDAO: ProductDAO)
     }
 
     suspend fun filterMapStoredDataWithRemote(
-        remoteData: List<com.raeanandres.thalesexam.model.Product>,
+        remoteData: List<Product>,
         localData: LiveData<List<Product>>){
     // check both remote and local data source to avoid storing duplicate entries to local storage
          remoteData.map {
-             val mapToLocalDataType = Product(
-                name = it.name,
-                type = it.product_type,
-                picture = it.picture,
-                price = it.price,
-                desc = it.description ?: "",
-                createdDate = Date().toString())
-
-             // check if there are remote data already existing in the local db
-             if (!localData.value!!.contains(mapToLocalDataType)) {
-                 // add items that are unique
-                 CoroutineScope(Dispatchers.IO).launch {
-                     productDAO.addProduct(mapToLocalDataType)
-                 }
-             }
+//             val mapToLocalDataType = Product(
+//                name = it.name,
+//                type = it.product_type,
+//                picture = it.picture,
+//                price = it.price,
+//                desc = it.description ?: "",
+//                createdDate = Date().toString())
+//
+//             // check if there are remote data already existing in the local db
+//             if (!localData.value!!.contains(mapToLocalDataType)) {
+//                 // add items that are unique
+//                 CoroutineScope(Dispatchers.IO).launch {
+////                     productDAO.addProduct(mapToLocalDataType)
+//                 }
+//             }
         }
     }
 
     suspend fun addProduct(product: Product): Boolean {
         // call API first
        return remoteApi.addProduct(
-            com.raeanandres.thalesexam.model.Product(
+            Product(
                 name = product.name,
-                product_type = product.type,
+                product_type = product.product_type,
                 picture = product.picture,
                 price = product.price,
-                description = product.desc,
+                description = product.description,
             )
         )
     }
 
-    suspend fun updateProduct(product: com.raeanandres.thalesexam.model.Product): Boolean{
+    suspend fun updateProduct(product: Product): Boolean{
 
         return remoteApi.updateProduct(product)
     }
 
     suspend fun deleteProduct(product: Product){
-        productDAO.deleteProduct(product)
     }
 }

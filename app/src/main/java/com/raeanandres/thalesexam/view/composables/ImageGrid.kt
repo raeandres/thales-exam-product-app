@@ -3,7 +3,6 @@ package com.raeanandres.thalesexam.view.composables
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -22,7 +21,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.raeanandres.thalesexam.domain.entity.Product
 import com.raeanandres.thalesexam.view.ProductsViewModel
 import kotlinx.coroutines.launch
 

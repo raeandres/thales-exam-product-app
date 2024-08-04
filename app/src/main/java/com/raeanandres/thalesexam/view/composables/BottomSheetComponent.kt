@@ -15,11 +15,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import com.raeanandres.thalesexam.R
+import com.raeanandres.thalesexam.view.ProductsViewModel
 import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomSheetComponent(sheetState: SheetState, sheetStatus : MutableState<Boolean>, coroutineScope: CoroutineScope){
+fun BottomSheetComponent(sheetState: SheetState, sheetStatus : MutableState<Boolean>, coroutineScope: CoroutineScope, productsVm: ProductsViewModel){
     if (sheetStatus.value) {
         ModalBottomSheet(
             modifier = Modifier.fillMaxHeight(0.5f),
@@ -28,7 +29,7 @@ fun BottomSheetComponent(sheetState: SheetState, sheetStatus : MutableState<Bool
                 sheetStatus.value = false
             }) {
            Box(modifier = Modifier.fillMaxSize()){
-               AddProduct(coroutineScope = coroutineScope)
+               AddProduct(productsVm = productsVm, coroutineScope = coroutineScope)
            }
         }
     }

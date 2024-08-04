@@ -16,8 +16,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.raeanandres.thalesexam.model.Product
 import com.raeanandres.thalesexam.view.ProductsViewModel
 import kotlinx.coroutines.CoroutineScope
 
@@ -47,16 +49,19 @@ fun AddProduct(productsVm: ProductsViewModel? = null, coroutineScope: CoroutineS
             }
 
         }
-        Spacer(modifier = Modifier.height(30.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         Button(modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 50.dp)
             ,onClick = {
             /*TODO*/
                 // call api to save
+//               productsVm.addProduct()
             }) {
-            Text(text = "Add Item")
+            Text(color = Color.White,
+                text = "Add Item")
         }
+        Spacer(modifier = Modifier.height(30.dp))
 
     }
 

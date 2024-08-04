@@ -15,6 +15,6 @@ fun ImageItem(imageUrl: String,
         modifier = Modifier.size(140.dp),
         model = imageUrl,
         placeholder = painterResource(id = R.drawable.ic_launcher_foreground),
-        error = painterResource(id = R.drawable.ic_launcher_background),
+        error = painterResource(id = R.drawable.ic_launcher_foreground),
         contentDescription = contentDesc)
 }

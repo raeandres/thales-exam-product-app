@@ -37,7 +37,7 @@ fun ScaffoldComponent(onSearch: (query: String) -> Unit, productVm: ProductsView
                 .padding(paddingValues)
                 .padding(14.dp)) {
                 ImageGrid(modifier = Modifier.fillMaxSize(), productList = filteredList, productVm = productVm)
-                BottomSheetComponent(sheetState, sheetStatus, coroutineScope)
+                BottomSheetComponent(sheetState, sheetStatus, coroutineScope, productVm)
             }
         },
         bottomBar = {
@@ -53,7 +53,6 @@ fun Footer(sheetStatus: MutableState<Boolean>){
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
 
         Button(onClick = {
-
             sheetStatus.value = true
         }) {
             Text("Add Item")
