@@ -7,12 +7,11 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import coil.compose.AsyncImage
-import com.raeanandres.thalesexam.R
 import com.raeanandres.thalesexam.ui.theme.ThalesExamTheme
+import com.raeanandres.thalesexam.view.composables.Alert
 import com.raeanandres.thalesexam.view.composables.MainScreen
+import com.raeanandres.thalesexam.view.composables.ShowDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -29,6 +28,8 @@ class MainActivity : ComponentActivity() {
                 currentNetwork?.let {
                     // trigger the api fetch
                     productVm.fetchProducts()
+                } ?: run {
+                    ShowDialog()
                 }
                 MainScreen(productVm)
             }
